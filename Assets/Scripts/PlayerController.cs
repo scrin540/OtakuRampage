@@ -13,6 +13,12 @@ public class PlayerController : MonoBehaviour {
     public Transform tnsView;
 
     private Vector3 velocity;
+    public float gravity = -9.81f;
+    public float jumpHeight = 3f;
+    public float groundDistance = 0.4f;
+    public LayerMask groundMask;
+
+    private bool isGrounded;
 
     public void CompStart() {
         compChar = GetComponent<CharacterController>();
@@ -21,11 +27,22 @@ public class PlayerController : MonoBehaviour {
     public void CompUpdate(DataPlayer data) {
         PerformentMovement(data.axis_h, data.axis_v);
         PerformentRotation(data.mouse_x, data.mouse_y);
+        PerformentJump(data.jump);
+        PerformentGavity();
     }
 
-    private void Update() {
+    private void PerformentJump(bool isJump) {
+        if (isJump && isGrounded)
+            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+    }
 
-        velocity.y += GameController.GRAVITY * Time.deltaTime;
+    private void PerformentGavity() {
+        isGrounded = Physics.CheckSphere(transform.position, groundDistance, groundMask);
+
+        if (isGrounded && velocity.y < 0)
+            velocity.y = -2f;
+
+        velocity.y += gravity * Time.deltaTime;
         compChar.Move(velocity * Time.deltaTime);
     }
 

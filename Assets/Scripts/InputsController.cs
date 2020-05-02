@@ -17,15 +17,7 @@ public class InputsController : MonoBehaviour {
         playerInputs.axis_v = Input.GetAxisRaw("Vertical");
         playerInputs.mouse_x = Input.GetAxis("Mouse X");
         playerInputs.mouse_y = Input.GetAxis("Mouse Y");
-
-        //float h = Input.GetAxisRaw("Horizontal");
-        //float v = Input.GetAxisRaw("Vertical");
-
-        //float m_x = Input.GetAxis("Mouse X");
-        //float m_y = Input.GetAxis("Mouse Y");
-
-        //scrPlayer.PerformentMovement(h, v);
-        //scrPlayer.PerformentRotation(m_x, m_y);
+        playerInputs.jump = Input.GetButtonDown("Jump");
 
         scrPlayer.CompUpdate(playerInputs);
     }
